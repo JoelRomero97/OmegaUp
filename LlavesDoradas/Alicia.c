@@ -4,6 +4,7 @@
 int * IngresarChapas (int * chapas, int numeroChapas);
 int * IngresarLlaves (int * llaves, int numeroLlaves);
 int LlaveExistente (int * llaves, int llave, int x);
+void AbrirPuertas (int * llaves, int * chapas, int numeroChapas, int numeroLlaves);
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////									Alicia.c 									////
@@ -44,20 +45,20 @@ int main(int argc, char const *argv[])
 		printf ("Error, el numero de llaves debe ser mayor a cero y menor o igual a 100,000.\n");
 		return 0;
 	}
+	AbrirPuertas (llaves, chapas, numeroChapas, numeroLlaves);
 	return 0;
 }
 
 int * IngresarChapas (int * chapas, int numeroChapas)
 {
 	int i;
-	//chapas = (int *) malloc (sizeof (int) * numeroChapas);
 	for (i = 0; i < numeroChapas; i ++)
 	{
 		printf ("Ingrese el tamanio de la chapa %d\n", i+1);
 		scanf ("%d", &chapas[i]);
-		if ((chapas [i] < chapas [i - 1]) && (i > 0) && (chapas [i] > 0))
+		if ((chapas [i] <= chapas [i - 1]) && (i > 0) && (chapas [i] > 0))
 		{
-			printf("Error, las chapas deben ingresarse de la mas chica a la mas grande\n");
+			printf("Error, las chapas deben ingresarse de la mas chica a la mas grande y no pueden repetirse.\n");
 			exit (0);
 		}else if ((chapas [i] <= 0) || (chapas [i] > 100000))
 		{
@@ -71,7 +72,6 @@ int * IngresarChapas (int * chapas, int numeroChapas)
 int * IngresarLlaves (int * llaves, int numeroLlaves)
 {
 	int i;
-	//llaves = (int *) malloc (sizeof (int) * numeroLlaves);
 	for (i = 0; i < numeroLlaves; i ++)
 	{
 		printf ("Ingrese la llave %d\n", i+1);
@@ -103,4 +103,27 @@ int LlaveExistente (int * llaves, int llave, int x)
 		n ++;
 	}
 	return resp;
+}
+
+void AbrirPuertas (int * llaves, int * chapas, int numeroChapas, int numeroLlaves)
+{
+	int i, j;
+	for (i = 0; i < numeroLlaves; i ++)
+	{
+		for (j = 0; j < numeroChapas; j ++)
+		{
+			if (llaves [i] == chapas [j])
+			{
+				printf("Llave %d abre puerta: %d\n", (i + 1), (j + 1));
+				break;
+			}else
+			{
+				if ((j + 1) == numeroChapas)
+				{
+					printf("Llave %d abre puerta: 0\n", (i + 1));
+					break;
+				}
+			}
+		}
+	}
 }
